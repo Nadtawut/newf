@@ -478,9 +478,9 @@ export default {
         { userId: '' },
         { img: '' },
         { date: ''},
-        { fb: '' },
-        { ig: '' },
-        { tw: '' },
+        { fb: null },
+        { ig: null },
+        { tw: null },
       ],
     }
   },
@@ -522,7 +522,7 @@ export default {
         img: this.currentuser[0].img,
         bg: this.currentuser[0].bg,
         fb: this.currentuser[0].fb,
-        ig: this.currentuser[0].fb,
+        ig: this.currentuser[0].ig,
         tw: this.currentuser[0].tw,
       }
       db.collection('User').doc(this.currentuser[0].userId).update(updatedata)

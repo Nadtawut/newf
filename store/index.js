@@ -28,7 +28,13 @@ const createStore = () => {
             logingOut: (state) => {
                 state.isLoggedIn = false
                 state.currentuser = [{ firstname: '' }, { lastname: '' }, { email: '' }, { username: '' }, { userId: '' }, { img: '' }, { admin: null }, { timestamp: '' }, { bg: '' }, { fb: '' }, { ig: '' }, { tw: '' }]
-            }
+            },
+            findUser:(state,{exUserId}) =>{
+                state.exUser = exUserId
+              },
+              findItem:(state,{exItemId}) => {
+                state.exItem = exItemId
+              } 
 
         },
         actions: {
@@ -38,6 +44,12 @@ const createStore = () => {
             async logout({ commit }) {
                 commit("logingOut");
             },
+            async setExUser({ commit},exUserId){
+                commit("findUser",{exUserId});
+              },
+              async setEXItem({commit},exItemId){
+                commit("findItem",{exItemId});
+              }
         },
     })
 }

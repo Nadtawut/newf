@@ -1,6 +1,6 @@
 
 <template>
-  <v-card class="mx-auto purple lighten-1">
+  <v-card class="mx-auto purple lighten-2">
     <v-app-bar
       dark
       color="blue"
@@ -20,15 +20,13 @@
                 </v-card-text>
     <v-card-text>
       <div v-for="user in users" :key="user.id" >
-        <v-card class="purple lighten-4">
+        <v-card class="grey">
           <v-col
           md="4">
-      <v-card class="text-center light-blue lighten-3">{{user.name}} </v-card>
+      <v-card class="text-center light-blue">{{user.name}} </v-card>
             </v-col>
         <v-card-subtitle>
-           <v-col
-        >
-     {{user.message}}
+           <v-col >{{user.message}}
             </v-col>
             <v-row>
              <v-col cols="12" md="2"></v-col>
@@ -40,7 +38,7 @@
            cols="12"
           md="2"
         >
-      <v-card class="black--text text-center">{{user.timestamp}}</v-card>
+      <v-card class="text-center red">{{user.timestamp}}</v-card>
             </v-col>
             </v-row>
             </v-card-subtitle>
@@ -82,6 +80,7 @@ import CreateMessage from './CreateMessage';
     },
     created() {
         let ref = db.collection('Messages').orderBy('timestamp');
+        console.log(this.users)
         ref.onSnapshot(snapshot => {
             snapshot.docChanges().forEach(change => {
                 if (change.type = 'added') {

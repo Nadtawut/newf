@@ -1,61 +1,80 @@
 <template>
   <v-container>
-    <v-container>
-      <v-chip-group column>
-      <v-card v-for="data in userdata" class="mx-auto" max-width="344" outlined>
-        <v-list-item three-line>
-          <v-list-item-content>
-            <div class="overline mb-4">{{ data.firstname }}&nbsp;{{data.lastname}}</div>
-            <v-list-item-title class="headline mb-1">
-            </v-list-item-title>
-            <v-list-item-subtitle>{{ data.email }}</v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-avatar tile size="80" color="grey"><img :src="data.img"></v-list-item-avatar>
-        </v-list-item>
-        <v-card-actions>
-          <nuxt-link
-          :to="{
-            name: 'profile-pro',
-            params: {
-              img: data.img,
-              bg: data.bg,
-              firstname: data.firstname,
-              lastname: data.lastname,
-              date: data.date,
-              email: data.email,
-              fb: data.fb,
-              ig: data.ig,
-              tw: data.tw,
-              Gender: data.Gender,
-            },
-          }"
-        >
-           <v-btn outlined rounded text> go </v-btn>
-        </nuxt-link>
-        </v-card-actions>
-      </v-card>
-      </v-chip-group>
-    </v-container>
-    <v-container>
-      <v-card width="400px"></v-card>
-    </v-container>
+    <v-row align="center" justify="center">
+      <v-col cols="6">
+        <v-text-field
+          v-model="search"
+          label="search"
+          filled
+          rounded
+          dense
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <div>
+      <v-row justify="center">
+        <v-col>
+          <div v-if="filterUsers() == ''">
+            <v-row justify="center" align="center" >
+            </v-row>
+          </div>
+          <div v-else >
+            <v-card
+              class="mx-auto"
+              width="500"
+              outlined v-for="users in filterUsers()"
+              :key="users.userId">
+              <v-list-item three-line>
+                <v-list-item-content>
+                  <div class="overline mb-4">
+                    {{ users.firstname }}&nbsp;{{users.lastname}}
+                  </div>
+                  <v-list-item-title class="headline mb-1">
+                    {{ users.username }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>{{ users.email }}</v-list-item-subtitle>
+                </v-list-item-content>
+
+                <v-list-item-avatar tile size="80" color="grey">
+                  <img :src="users.img" />
+                </v-list-item-avatar>
+              </v-list-item>
+
+              <v-card-actions>
+                <v-btn
+                  outlined
+                  rounded
+                  text
+                  :to="{
+                    name: 'chat',
+                    query: { q: users.userId },
+                  }"
+                >
+                  Chat
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </div>
+        </v-col>
+      </v-row>
+    </div>
   </v-container>
 </template>
+
 <script>
 import firebase from 'firebase/app'
-import { auth, db } from '~/plugins/firebaseConfig.js'
-
+import { storage } from '~/plugins/firebaseConfig.js'
+import { db } from '~/plugins/firebaseConfig.js'
+import { auth } from '~/plugins/firebaseConfig.js'
 export default {
-  data: () => {
+  data: function () {
     return {
       imgUrl: '',
       fileImage: null,
       userdata: [],
+      search: '',
+      users: [],
     }
-  },
-  created() {
-    this.checklogin()
-    this.getData()
   },
   methods: {
     getData() {
@@ -78,8 +97,21 @@ export default {
     setdefault() {
       this.getuser()
     },
+    filterUsers() {
+      return this.userdata.filter((card) => {
+        return card.username.toLowerCase().match(this.search.toLowerCase())
+      })
+    }, 
+  },
+  created() {
+    this.checklogin()
+    this.getData()
+  },
+  computed() {
+    this.filterSellCard()
   },
 }
 </script>
 
-<style></style>
+<style>
+</style>

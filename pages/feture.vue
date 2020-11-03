@@ -5,7 +5,7 @@
         <v-row class="fill-height">
           <v-col>
             <v-sheet height="64">
-              <v-toolbar flat>
+              <v-toolbar flat class="white">
                 <v-btn
                   outlined
                   class="mr-4"
@@ -28,7 +28,7 @@
                 <v-btn fab text small color="grey darken-2" @click="next">
                   <v-icon small> mdi-chevron-right </v-icon>
                 </v-btn>
-                <v-toolbar-title v-if="$refs.calendar">
+                <v-toolbar-title v-if="$refs.calendar" class="black--text">
                   {{ $refs.calendar.title }}
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
@@ -132,7 +132,7 @@
                     ></v-toolbar-title>
                     <v-spacer></v-spacer>
                   </v-toolbar>
-                  <v-card-text>
+                  <v-card-text class="red">
                     <v-form v-if="currentlyEditing !== selectedEvent.id">
                       {{ selectedEvent.details }}
                     </v-form>
@@ -146,15 +146,15 @@
                     </v-form>
                   </v-card-text>
                   <v-card-actions>
-                    <v-btn text @click="selectedOpen = false">Close</v-btn>
+                    <v-btn  @click="selectedOpen = false">Close</v-btn>
                     <v-btn
-                      text
+                      
                       v-if="currentlyEditing !== selectedEvent.id"
                       @click.prevent="editEvent(selectedEvent)"
                       >Edit</v-btn
                     >
                     <v-btn
-                      text
+                      
                       v-else
                       @click.prevent="updateEvent(selectedEvent)"
                       >Save</v-btn
